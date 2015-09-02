@@ -1,0 +1,53 @@
+package com.rmendel.lineManager.application;
+
+import java.util.HashMap;
+
+import com.rmendel.framework.CsvReader;
+import com.rmendel.framework.TaskLogEntry;
+
+public class LineCache {
+
+	public LineCache() {
+		loadQuestionData();
+	}
+	
+	public static LineCache getInstance() throws Exception {
+		if(instance == null) {
+			initializeSingleton();
+		}
+		
+		return instance;
+	}
+	
+	public static String getSourceFile() {
+		return sourceFile;
+	}
+
+	public static void setSourceFile(String sourceFile) {
+		LineCache.sourceFile = sourceFile;
+	}
+
+	private static synchronized void initializeSingleton() throws Exception {
+		instance = new LineCache();
+	}
+	
+	public String getLine(int lineNumber) throws Exception {
+		if(lines.containsKey(lineNumber))
+			return lines.get(lineNumber);
+		
+		loadLine(lineNumber);
+		
+		if(lines.containsKey(lineNumber))
+			return lines.get(lineNumber);
+
+		throw new Exception("Failed to load line number [" + lineNumber + "].");
+	}
+	
+	private void loadLine(int lineNumber) {
+		
+	}
+	
+	private static LineCache instance = null;
+	private static String sourceFile = "./LineData.csv";
+	private HashMap<Integer,String> lines = new HashMap<Integer,String>();
+}

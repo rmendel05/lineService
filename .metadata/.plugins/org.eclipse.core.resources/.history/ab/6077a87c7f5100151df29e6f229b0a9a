@@ -1,0 +1,50 @@
+package com.rmendel.lineManager.service;
+
+import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+
+import com.rmendel.framework.RMLog;
+import com.rmendel.lineManager.application.LineCache;
+import com.sun.jersey.api.core.ResourceConfig;
+import com.sun.jersey.spi.container.servlet.ServletContainer;
+
+public class LineServerMain
+{
+	public static final String HOST_SERVER = "localhost";
+	public static final int HOST_PORT = 8080;
+	public static final String CONTEXT_PATH = "/api";
+
+	public static void main(String[] args) throws Exception {
+    	RMLog.info("Starting Line Server...");
+    	
+    	// Force Line Cache load first
+    	LineCache.getInstance();
+    	
+    	RMLog.info("Initializing servlet...");
+        ServletHolder servlet = new ServletHolder(ServletContainer.class);    
+
+        servlet.setName("quizServer");
+        servlet.setInitParameter("javax.ws.rs.Application", "com.rmendel.lineManager.service.SwaggerApplication");
+//        servlet.setInitParameter("com.sun.jersey.config.property.resourceConfigClass", "com.sun.jersey.api.core.PackagesResourceConfig");
+        servlet.setInitParameter("com.sun.jersey.config.property.packages", "com.rmendel.lineManager.service,com.rmendel.lineManager.api");
+        servlet.setInitParameter("com.sun.jersey.api.json.POJOMappingFeature", "true");
+        servlet.setInitParameter(ResourceConfig.PROPERTY_CONTAINER_RESPONSE_FILTERS, LineResponseFilter.class.getName());
+        
+        Server server = new Server(LineServerMain.HOST_PORT);
+        ServletContextHandler context = new ServletContextHandler(
+        		server, 
+        		LineServerMain.CONTEXT_PATH, 
+        		ServletContextHandler.SESSIONS);
+        context.addServlet(servlet, "/*");
+
+    	RMLog.info("Starting web server...");
+        server.start();
+        server.join();      
+     }
+
+	public static String getHost() {
+		return HOST_SERVER + ":" + HOST_PORT;
+	}
+	
+}

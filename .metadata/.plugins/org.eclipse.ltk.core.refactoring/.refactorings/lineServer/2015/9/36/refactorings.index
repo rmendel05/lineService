@@ -1,0 +1,31 @@
+1441203125712	Rename resource 'QuestionData.csv'
+1441203187570	Rename resource 'QuestionData.csv'
+1441203238363	Rename package 'com.rmendel.quizManager.api'
+1441203259149	Rename package 'com.rmendel.quizManager.application'
+1441203281966	Rename package 'com.rmendel.quizManager.service'
+1441203294956	Rename resource 'QuestionData.csv'
+1441203390320	Delete element
+1441203400073	Delete element
+1441203423957	Delete element
+1441203444073	Delete element
+1441203447325	Delete element
+1441203450527	Delete element
+1441203552746	Rename type 'QuizServerMain'
+1441203570874	Rename type 'QuestionService'
+1441203589571	Rename type 'QuizResponseFilter'
+1441204241073	Delete elements
+1441204347294	Rename type 'QuestionCache'
+1441205567129	Delete element
+1441205570625	Delete element
+1441205575922	Delete element
+1441205597228	Delete element
+1441205608112	Delete element
+1441205612349	Delete element
+1441205619174	Delete element
+1441205629827	Delete element
+1441205643989	Delete element
+1441205904958	Delete element
+1441208607220	Rename local variable 'currentLine'
+1441208624265	Rename local variable 'line'
+1441210489094	Delete element
+1441210503229	Delete element

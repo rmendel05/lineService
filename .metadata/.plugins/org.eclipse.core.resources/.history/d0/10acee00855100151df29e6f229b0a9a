@@ -1,0 +1,67 @@
+package com.rmendel.lineManager.application;
+
+import java.util.HashMap;
+
+import com.rmendel.framework.CsvReader;
+import com.rmendel.framework.TaskLogEntry;
+
+public class LineCache {
+
+	public LineCache() {
+		loadQuestionData();
+	}
+	
+	public static LineCache getInstance() throws Exception {
+		if(instance == null) {
+			initializeSingleton();
+		}
+		
+		return instance;
+	}
+	
+	public static String getSourceFile() {
+		return sourceFile;
+	}
+
+	public static void setSourceFile(String sourceFile) {
+		LineCache.sourceFile = sourceFile;
+	}
+
+	private static synchronized void initializeSingleton() throws Exception {
+		instance = new LineCache();
+	}
+	
+	private String getLine(int lineNumber) {
+		String toReturn;
+		
+		return toReturn;
+	}
+	
+	private void loadQuestionData() {
+    	CsvReader reader = new CsvReader(sourceFile);
+    	QuestionCsvParser parser = new QuestionCsvParser();
+    	parser.setColumnSeparator("\\|");
+
+    	try(TaskLogEntry logEntry = new TaskLogEntry("Initializing LineCache")) {
+	    	try {
+				reader.readAllLines(parser);
+				logEntry.setSuccess(true);
+				logEntry.setAdditionalMessage("Successfully loaded [" 
+						+ reader.getTotalLinesProcessedSuccessfully() + "] of ["
+						+ reader.getTotalLinesProcessed() + "] total lines from file ["
+						+ sourceFile + "]");
+			} catch (Exception e) {
+				Exception loadException = new Exception(
+						"Failed to load question data into cache from file [" + sourceFile + "]",
+						e);
+				logEntry.setException(loadException);
+			}
+    	}
+    	
+    	questionTable = parser.getData();
+	}
+	
+	private static LineCache instance = null;
+	private static String sourceFile = "./LineData.csv";
+	private HashMap<Integer,String> lines = new HashMap<Integer,String>();
+}
